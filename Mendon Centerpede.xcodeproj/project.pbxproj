@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		FCD5F317207DB3C700DD7972 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD5F316207DB3C700DD7972 /* AppDelegate.swift */; };
-		FCD5F319207DB3C700DD7972 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = FCD5F318207DB3C700DD7972 /* GameScene.sks */; };
-		FCD5F31B207DB3C700DD7972 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = FCD5F31A207DB3C700DD7972 /* Actions.sks */; };
 		FCD5F31D207DB3C700DD7972 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD5F31C207DB3C700DD7972 /* GameScene.swift */; };
 		FCD5F31F207DB3C700DD7972 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD5F31E207DB3C700DD7972 /* GameViewController.swift */; };
 		FCD5F322207DB3C700DD7972 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCD5F320207DB3C700DD7972 /* Main.storyboard */; };
@@ -39,8 +37,6 @@
 /* Begin PBXFileReference section */
 		FCD5F313207DB3C700DD7972 /* Mendon Centerpede.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mendon Centerpede.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCD5F316207DB3C700DD7972 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FCD5F318207DB3C700DD7972 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		FCD5F31A207DB3C700DD7972 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		FCD5F31C207DB3C700DD7972 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		FCD5F31E207DB3C700DD7972 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		FCD5F321207DB3C700DD7972 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -104,8 +100,6 @@
 			isa = PBXGroup;
 			children = (
 				FCD5F316207DB3C700DD7972 /* AppDelegate.swift */,
-				FCD5F318207DB3C700DD7972 /* GameScene.sks */,
-				FCD5F31A207DB3C700DD7972 /* Actions.sks */,
 				FCD5F31C207DB3C700DD7972 /* GameScene.swift */,
 				FCD5F31E207DB3C700DD7972 /* GameViewController.swift */,
 				FCD5F320207DB3C700DD7972 /* Main.storyboard */,
@@ -239,10 +233,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FCD5F322207DB3C700DD7972 /* Main.storyboard in Resources */,
-				FCD5F319207DB3C700DD7972 /* GameScene.sks in Resources */,
 				FCD5F324207DB3C900DD7972 /* Assets.xcassets in Resources */,
 				FCD5F327207DB3C900DD7972 /* LaunchScreen.storyboard in Resources */,
-				FCD5F31B207DB3C700DD7972 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
