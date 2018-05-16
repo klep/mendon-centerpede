@@ -21,8 +21,9 @@ struct PhysicsCategory {
     static let none: UInt32 = 0
     static let all: UInt32 = UInt32.max
     static let centipedePart: UInt32 = 0b1
-    static let bullet: UInt32 = 0b10
-    static let ship: UInt32 = 0b100
+    static let mushroom: UInt32 = 0b10
+    static let bullet: UInt32 = 0b100
+    static let ship: UInt32 = 0b1000
 }
 
 class GameScene: SKScene {
@@ -34,6 +35,7 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         backgroundColor = SKColor.purple
         addShip()
+        addRandomMushrooms()
         
         physicsWorld.contactDelegate = self
         physicsWorld.gravity = .zero
@@ -57,16 +59,31 @@ class GameScene: SKScene {
         run(repeatAction, withKey: "centipede-spawner")
 //        run(shootingAction, withKey: "shooting")
     }
-    
-    func addShip() {
-        ship.position = CGPoint(x: size.width * 0.5, y: 0)
+
+    private var spriteSize: CGSize {
         let originalWidth = ship.size.width
         let width = size.width / 20.0
         let scale = width / originalWidth
         let height = ship.size.height * scale
-        ship.size = CGSize(width: width, height: height)
+        return CGSize(width: width, height: height)
+    }
+    
+    private let numMushrooms = 1
+    func addRandomMushrooms() {
+        for _ in 0..<numMushrooms {
+            let mushroom = MushroomSprite()
+            mushroom.size = spriteSize
+            mushroom.position = CGPoint(x: size.width * 0.5, y: 20)
+
+            addChild(mushroom)
+        }
+    }
+    
+    func addShip() {
+        ship.position = CGPoint(x: size.width * 0.5, y: 0)
+        ship.size = spriteSize
         
-        let physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: width, height: height))
+        let physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: spriteSize.width, height: spriteSize.height))
         physicsBody.isDynamic = true
         physicsBody.categoryBitMask = PhysicsCategory.ship
         physicsBody.contactTestBitMask = PhysicsCategory.centipedePart
@@ -195,6 +212,10 @@ class GameScene: SKScene {
 //    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 //    }
     
+    func bulletDidHitMushroom(bullet: SKSpriteNode, mushroom: MushroomSprite) {
+        print("Hit mushroom")
+    }
+    
     func bulletDidHitCentipedePart(bullet: SKSpriteNode, centipedePart: SKSpriteNode) {
         print("Hit")
         bullet.removeFromParent()
@@ -228,6 +249,12 @@ extension GameScene: SKPhysicsContactDelegate {
             if let centipedePart = firstBody.node as? SKSpriteNode,
                 let bullet = secondBody.node as? SKSpriteNode {
                 bulletDidHitCentipedePart(bullet: bullet, centipedePart: centipedePart)
+            }
+        } else if ((firstBody.categoryBitMask & PhysicsCategory.mushroom != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.bullet != 0)) {
+            if let mushroom = firstBody.node as? MushroomSprite,
+                let bullet = secondBody.node as? SKSpriteNode {
+                bulletDidHitMushroom(bullet: bullet, mushroom: mushroom)
             }
         }
         

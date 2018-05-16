@@ -10,6 +10,7 @@
 		FC57A0722082FADB001016B7 /* Centipede.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC57A0712082FADB001016B7 /* Centipede.swift */; };
 		FC57A0762082FB17001016B7 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC57A0752082FB17001016B7 /* Grid.swift */; };
 		FC74F16F2084504A00C02D4F /* CentipedeSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC74F16E2084504A00C02D4F /* CentipedeSprite.swift */; };
+		FC777D6220ABCA3C00777EB6 /* MushroomSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC777D6120ABCA3C00777EB6 /* MushroomSprite.swift */; };
 		FCD5F317207DB3C700DD7972 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD5F316207DB3C700DD7972 /* AppDelegate.swift */; };
 		FCD5F31D207DB3C700DD7972 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD5F31C207DB3C700DD7972 /* GameScene.swift */; };
 		FCD5F31F207DB3C700DD7972 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD5F31E207DB3C700DD7972 /* GameViewController.swift */; };
@@ -41,6 +42,7 @@
 		FC57A0712082FADB001016B7 /* Centipede.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Centipede.swift; sourceTree = "<group>"; };
 		FC57A0752082FB17001016B7 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		FC74F16E2084504A00C02D4F /* CentipedeSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentipedeSprite.swift; sourceTree = "<group>"; };
+		FC777D6120ABCA3C00777EB6 /* MushroomSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MushroomSprite.swift; sourceTree = "<group>"; };
 		FCD5F313207DB3C700DD7972 /* Mendon Centerpede.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mendon Centerpede.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCD5F316207DB3C700DD7972 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FCD5F31C207DB3C700DD7972 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				FC57A0712082FADB001016B7 /* Centipede.swift */,
 				FC57A0752082FB17001016B7 /* Grid.swift */,
 				FC74F16E2084504A00C02D4F /* CentipedeSprite.swift */,
+				FC777D6120ABCA3C00777EB6 /* MushroomSprite.swift */,
 			);
 			path = "Mendon Centerpede";
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC777D6220ABCA3C00777EB6 /* MushroomSprite.swift in Sources */,
 				FC74F16F2084504A00C02D4F /* CentipedeSprite.swift in Sources */,
 				FCD5F31D207DB3C700DD7972 /* GameScene.swift in Sources */,
 				FCD5F31F207DB3C700DD7972 /* GameViewController.swift in Sources */,
