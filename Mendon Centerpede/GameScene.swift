@@ -9,151 +9,231 @@
 import SpriteKit
 import GameplayKit
 
+func random() -> CGFloat {
+    return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
+}
+
+func random(min: CGFloat, max: CGFloat) -> CGFloat {
+    return random() * (max - min) + min
+}
+
+struct PhysicsCategory {
+    static let none: UInt32 = 0
+    static let all: UInt32 = UInt32.max
+    static let centipedePart: UInt32 = 0b1
+    static let bullet: UInt32 = 0b10
+    static let ship: UInt32 = 0b100
+}
+
 class GameScene: SKScene {
     private let ship = SKSpriteNode(imageNamed: "ship")
     private let head = SKSpriteNode(imageNamed: "head")
+    private var grid: Grid?
+    var gameIsOver = false
     
     override func didMove(to view: SKView) {
         backgroundColor = SKColor.purple
-        ship.position = CGPoint(x: size.width * 0.1, y: size.height * 0.5)
+        addShip()
+        
+        physicsWorld.contactDelegate = self
+        physicsWorld.gravity = .zero
+        
+        let repeatAction = SKAction.repeatForever(
+            SKAction.sequence([
+                SKAction.run(addHead),
+                SKAction.wait(forDuration: 1.0)
+                ])
+        )
+        
+//        let shootingAction = SKAction.repeatForever(
+//            SKAction.sequence([
+//                SKAction.run(shoot),
+//                SKAction.wait(forDuration: 0.2)
+//                ])
+//        )
+        
+        grid = Grid(width: size.width, height: size.height, scene: self)
+        
+        run(repeatAction, withKey: "centipede-spawner")
+//        run(shootingAction, withKey: "shooting")
+    }
+    
+    func addShip() {
+        ship.position = CGPoint(x: size.width * 0.5, y: 0)
         let originalWidth = ship.size.width
         let width = size.width / 20.0
         let scale = width / originalWidth
         let height = ship.size.height * scale
         ship.size = CGSize(width: width, height: height)
+        
+        let physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: width, height: height))
+        physicsBody.isDynamic = true
+        physicsBody.categoryBitMask = PhysicsCategory.ship
+        physicsBody.contactTestBitMask = PhysicsCategory.centipedePart
+        physicsBody.collisionBitMask = PhysicsCategory.none
+        physicsBody.usesPreciseCollisionDetection = true
+        ship.physicsBody = physicsBody
+        
         addChild(ship)
-        
-        run(SKAction.repeatForever(
-            SKAction.sequence([
-                SKAction.run(addHead),
-                SKAction.wait(forDuration: 1.0)
-                ])
-        ))
     }
     
-    func random() -> CGFloat {
-        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
-    }
-    
-    func random(min: CGFloat, max: CGFloat) -> CGFloat {
-        return random() * (max - min) + min
-    }
-    
-    func addHead() {
-        
-        // Create sprite
-        let head = SKSpriteNode(imageNamed: "head")
-        
-        let originalWidth = head.size.width
-        let width = size.width / 20.0
-        let scale = width / originalWidth
-        let height = head.size.height * scale
-        head.size = CGSize(width: width, height: height)
-        
-        // Determine where to spawn the monster along the Y axis
-        let actualY = random(min: head.size.height/2, max: size.height - head.size.height/2)
-        
-        // Position the monster slightly off-screen along the right edge,
-        // and along a random position along the Y axis as calculated above
-        head.position = CGPoint(x: size.width + head.size.width/2, y: actualY)
-        
-        // Add the monster to the scene
-        addChild(head)
-        
-        // Determine speed of the monster
-        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
-        
-        // Create the actions
-        let actionMove = SKAction.move(to: CGPoint(x: -head.size.width/2, y: actualY), duration: TimeInterval(actualDuration))
-        let actionMoveDone = SKAction.removeFromParent()
-        head.run(SKAction.sequence([actionMove, actionMoveDone]))
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    func shoot() {
         let projectile = SKSpriteNode(imageNamed: "pixel")
         projectile.position = ship.position
         projectile.size = CGSize(width: ship.size.width * 0.1, height: ship.size.height * 0.1)
-
+        
+        let physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.width/2)
+        physicsBody.isDynamic = true
+        physicsBody.categoryBitMask = PhysicsCategory.bullet
+        physicsBody.contactTestBitMask = PhysicsCategory.centipedePart
+        physicsBody.collisionBitMask = PhysicsCategory.none
+        physicsBody.usesPreciseCollisionDetection = true
+        projectile.physicsBody = physicsBody
+        
         addChild(projectile)
         
         let moveAction = SKAction.move(to: CGPoint(x: projectile.position.x, y: size.height), duration: 2.0)
         let moveActionDone = SKAction.removeFromParent()
         projectile.run(SKAction.sequence([moveAction, moveActionDone]))
     }
-    /*
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
     
-    override func didMove(to view: SKView) {
+    func addHead() {
         
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
-        }
-        
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
-        }
+//        // Create sprite
+//        let head = SKSpriteNode(imageNamed: "head")
+//
+//        let originalWidth = head.size.width
+//        let width = size.width / 20.0
+//        let scale = width / originalWidth
+//        let height = head.size.height * scale
+//        head.size = CGSize(width: width, height: height)
+//
+//        let physicsBody = SKPhysicsBody(circleOfRadius: width / 2.0)
+//        physicsBody.isDynamic = true
+//        physicsBody.categoryBitMask = PhysicsCategory.centipedePart
+//        physicsBody.contactTestBitMask = PhysicsCategory.bullet & PhysicsCategory.ship
+//        physicsBody.collisionBitMask = PhysicsCategory.none
+//        head.physicsBody = physicsBody
+//
+//        // Determine where to spawn the monster along the Y axis
+//        let actualY = random(min: head.size.height/2, max: size.height - head.size.height/2)
+//
+//        // Position the monster slightly off-screen along the right edge,
+//        // and along a random position along the Y axis as calculated above
+//        head.position = CGPoint(x: size.width + head.size.width/2, y: actualY)
+//
+//        // Add the monster to the scene
+//        addChild(head)
+//
+//        // Determine speed of the monster
+//        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
+//
+//        // Create the actions
+//        let actionMove = SKAction.move(to: CGPoint(x: -head.size.width/2, y: actualY), duration: TimeInterval(actualDuration))
+//        let actionMoveDone = SKAction.removeFromParent()
+//        head.run(SKAction.sequence([actionMove, actionMoveDone]))
     }
     
-    
-    func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
-        }
-    }
-    
-    func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
-    }
+    var lastTouch: CGPoint? = nil
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-        }
-        
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+        guard let touch = touches.first else { return }
+        let touchLocation = touch.location(in: self)
+        lastTouch = touchLocation
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+        guard let touch = touches.first else { return }
+        let touchLocation = touch.location(in: self)
+        lastTouch = touchLocation
     }
     
+    // Be sure to clear lastTouch when touches end so that the impulses stop being applies
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+        lastTouch = nil
+        let shootAction = SKAction.run(shoot)
+        run(shootAction)
     }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
-    
-    
+
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-    }*/
+        if let touch = lastTouch {
+            let adjustedTouch = CGPoint(x: touch.x, y: min(touch.y, size.height / 4.0))
+            let vector = CGVector(dx: (adjustedTouch.x - ship.position.x), dy: (adjustedTouch.y - ship.position.y))
+//            ship.physicsBody?.applyImpulse(impulseVector)
+            ship.physicsBody?.velocity = vector
+        }
+    }
+//    override func update(currentTime: CFTimeInterval) {
+//        // Only add an impulse if there's a lastTouch stored
+//        if let touch = lastTouch {
+//            let impulseVector = CGVector(touch.x - myShip.position.x, 0)
+//            // If myShip starts moving too fast or too slow, you can multiply impulseVector by a constant or clamp its range
+//            myShip.physicsBody.applyImpluse(impulseVector)
+//        }
+//    }
+    /*
+    let velocity: Float = 1000.0
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        
+        let location = touch.location(in: self)
+        // todo: limit max y
+        
+        // cancel any existing moves
+        removeAction(forKey: "moving")
+        
+        // move the ship towards this location
+        let distanceX = abs(location.x - ship.position.x)
+        let distanceY = abs(location.y - ship.position.y)
+        let mostPointsToMove = max(distanceX, distanceY)
+        let duration = Float(mostPointsToMove) / velocity
+        let moveAction = SKAction.move(to: location, duration: Double(duration))
+        ship.run(moveAction, withKey: "moving")
+    }
+    */
+//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+//    }
+    
+    func bulletDidHitCentipedePart(bullet: SKSpriteNode, centipedePart: SKSpriteNode) {
+        print("Hit")
+        bullet.removeFromParent()
+        centipedePart.removeFromParent()
+        grid?.centipedeWasHit(centipedePart)
+    }
+    
+    func gameOver() {
+        gameIsOver = true
+        self.removeAllChildren()
+        self.removeAction(forKey: "centipede-spawner")
+        self.removeAction(forKey: "shooting")
+    }
+}
+
+extension GameScene: SKPhysicsContactDelegate {
+    func didBegin(_ contact: SKPhysicsContact) {
+        var firstBody: SKPhysicsBody
+        var secondBody: SKPhysicsBody
+        
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        if ((firstBody.categoryBitMask & PhysicsCategory.centipedePart != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.bullet != 0)) {
+            if let centipedePart = firstBody.node as? SKSpriteNode,
+                let bullet = secondBody.node as? SKSpriteNode {
+                bulletDidHitCentipedePart(bullet: bullet, centipedePart: centipedePart)
+            }
+        }
+        
+        if ((firstBody.categoryBitMask & PhysicsCategory.centipedePart != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.ship != 0)) {
+            gameOver()
+        }
+    }
 }
