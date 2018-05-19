@@ -81,7 +81,6 @@ class Grid {
                         let x = CGFloat(centipedeModel.centipede.xPosition) * strongSelf.spaceX + strongSelf.spaceX/2
                         let y = CGFloat(centipedeModel.centipede.yPosition) * strongSelf.spaceY - strongSelf.spaceY/2
 //                        print("Moving head to \(x), \(y)")
-                        sprite.removeAllActions()
                         sprite.run(SKAction.move(to: CGPoint(x: x, y: y), duration: 1/strongSelf.speed))
                         sprite.gridX = centipedeModel.centipede.xPosition
                         sprite.gridY = centipedeModel.centipede.yPosition

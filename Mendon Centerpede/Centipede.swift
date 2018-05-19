@@ -63,6 +63,7 @@ class Centipede {
         }
         
         grid.speed = grid.speed * 1.1
+        grid.addMushroom(x: x, y: y)
         
         print("A centipede of length \(originalBodyCount) was hit at index \(index) (\(x), \(y)), making the old one length \(bodyCount) and the new one \(newCentipedeBodyCount)")
     }

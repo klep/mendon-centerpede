@@ -220,6 +220,7 @@ class GameScene: SKScene {
     
     func bulletDidHitMushroom(bullet: SKSpriteNode, mushroom: MushroomSprite) {
         print("Hit mushroom")
+        bullet.removeFromParent()
         mushroom.hit()
     }
     

@@ -3,10 +3,11 @@
 √mushrooms initial
 √mushrooms collide with centipede
 √mushrooms degrade when shot
-why is everything especially head so jerky?
-stop the bullet when it hits something (mushroom)
-have a way to cancel upcoming turn? might be why when it gets hit body parts get screwey
+√why is everything especially head so jerky?
+√stop the bullet when it hits something (mushroom)
 shot part turns into mushroom
+shooting mushrooms is weird because of the increased hit area thing...
+have a way to cancel upcoming turn? might be why when it gets hit body parts get screwey
 two parts overlap when shot (bad)
 keep spaceship on screen
 keep spaceship below fold
