@@ -62,7 +62,7 @@ class Centipede {
             grid.addCentipede(x: x - 1, y: y, direction: self.direction, bodyCount: originalBodyCount - bodyCount - 1)
         }
         
-        grid.speed = grid.speed * 1.2
+        grid.speed = grid.speed * 1.1
         
         print("A centipede of length \(originalBodyCount) was hit at index \(index) (\(x), \(y)), making the old one length \(bodyCount) and the new one \(newCentipedeBodyCount)")
     }
@@ -71,5 +71,7 @@ class Centipede {
         yPosition -= 1
         xPosition += direction
         direction = -direction
+        
+        // todo: could verify that direction doesn't send it off the grid here, but might be too complex for kids
     }
 }

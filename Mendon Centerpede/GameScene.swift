@@ -220,6 +220,7 @@ class GameScene: SKScene {
     
     func bulletDidHitMushroom(bullet: SKSpriteNode, mushroom: MushroomSprite) {
         print("Hit mushroom")
+        mushroom.hit()
     }
     
     func bulletDidHitCentipedePart(bullet: SKSpriteNode, centipedePart: SKSpriteNode) {

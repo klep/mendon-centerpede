@@ -58,6 +58,7 @@ class Grid {
     
     var speed = 3.0 {
         didSet {
+            speed = min(speed, 9)
             timer?.invalidate()
             start()
         }
@@ -119,7 +120,7 @@ class Grid {
         // Check if there's already a mushroom at this position
         if mushrooms.reduce(false, { $0 || ($1.gridX == x && $1.gridY == y) }) { return false }
         
-        let mushroom = MushroomSprite(imageNamed: "mushroom")
+        let mushroom = MushroomSprite()
         mushroom.gridX = x
         mushroom.gridY = y
         position(mushroom, x: x, y: y)
