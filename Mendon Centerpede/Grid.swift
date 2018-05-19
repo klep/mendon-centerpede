@@ -124,6 +124,8 @@ class Grid {
         mushroom.gridX = x
         mushroom.gridY = y
         position(mushroom, x: x, y: y)
+        // adjust the size a bit to avoid overlap
+        mushroom.size = CGSize(width: mushroom.size.width, height: mushroom.size.height * 0.9)
 
         // body is slightly wider so that collisions are detected before the turn in which they occur
         let physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: mushroom.size.width * 2, height: mushroom.size.height * 0.5))
