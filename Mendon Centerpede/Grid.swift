@@ -125,7 +125,7 @@ class Grid {
         position(mushroom, x: x, y: y)
 
         // body is slightly wider so that collisions are detected before the turn in which they occur
-        let physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: mushroom.size.width * 1.1, height: mushroom.size.height * 0.5))
+        let physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: mushroom.size.width * 2, height: mushroom.size.height * 0.5))
         physicsBody.isDynamic = true
         physicsBody.categoryBitMask = PhysicsCategory.mushroom
         physicsBody.contactTestBitMask = PhysicsCategory.bullet | PhysicsCategory.centipedePart
