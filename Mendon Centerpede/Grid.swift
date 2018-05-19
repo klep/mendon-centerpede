@@ -11,10 +11,6 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-protocol Sprite {
-    
-}
-
 struct SpriteMove {
     
 }
@@ -36,11 +32,12 @@ class Grid {
         var sprites: [CentipedeSprite]
     }
 
-    weak var scene: SKScene?
+    weak var scene: GameScene?
     var centipedeModels: [CentipedeModel] = []
+    var mushrooms: Set<MushroomSprite> = []
     var timer: Timer?
     
-    init(width: CGFloat, height: CGFloat, scene: SKScene) {
+    init(width: CGFloat, height: CGFloat, scene: GameScene) {
         self.width = width
         self.height = height
         
@@ -48,7 +45,7 @@ class Grid {
         spaceY = (height / CGFloat(yCount))
         
         self.scene = scene
-        addCentipede(x: 16, y: yCount, direction: 1, bodyCount: 16)
+        addCentipede(x: 0, y: yCount, direction: 1, bodyCount: 16)
 //        addCentipede(x: 0, y: yCount, bodyCount: 1)
         DispatchQueue.main.async { [weak self] in
             self?.start()
@@ -59,7 +56,7 @@ class Grid {
         timer?.invalidate()
     }
     
-    var speed = 1.0 {
+    var speed = 3.0 {
         didSet {
             timer?.invalidate()
             start()
@@ -83,6 +80,7 @@ class Grid {
                         let x = CGFloat(centipedeModel.centipede.xPosition) * strongSelf.spaceX + strongSelf.spaceX/2
                         let y = CGFloat(centipedeModel.centipede.yPosition) * strongSelf.spaceY - strongSelf.spaceY/2
 //                        print("Moving head to \(x), \(y)")
+                        sprite.removeAllActions()
                         sprite.run(SKAction.move(to: CGPoint(x: x, y: y), duration: 1/strongSelf.speed))
                         sprite.gridX = centipedeModel.centipede.xPosition
                         sprite.gridY = centipedeModel.centipede.yPosition
@@ -115,6 +113,40 @@ class Grid {
         return centipede
     }
     
+    @discardableResult
+    func addMushroom(x: Int, y: Int) -> Bool
+    {
+        // Check if there's already a mushroom at this position
+        if mushrooms.reduce(false, { $0 || ($1.gridX == x && $1.gridY == y) }) { return false }
+        
+        let mushroom = MushroomSprite(imageNamed: "mushroom")
+        mushroom.gridX = x
+        mushroom.gridY = y
+        position(mushroom, x: x, y: y)
+
+        // body is slightly wider so that collisions are detected before the turn in which they occur
+        let physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: mushroom.size.width * 1.1, height: mushroom.size.height * 0.5))
+        physicsBody.isDynamic = true
+        physicsBody.categoryBitMask = PhysicsCategory.mushroom
+        physicsBody.contactTestBitMask = PhysicsCategory.bullet | PhysicsCategory.centipedePart
+        physicsBody.collisionBitMask = PhysicsCategory.none
+        mushroom.physicsBody = physicsBody
+        
+        mushrooms.insert(mushroom)
+        scene?.addChild(mushroom)
+        return true
+    }
+    
+    private func position(_ sprite: GridSprite, x: Int, y: Int) {
+        guard let scene = scene else { return }
+        
+        sprite.size = scene.spriteSize
+        sprite.gridX = x
+        sprite.gridY = y
+        sprite.position = CGPoint(x: CGFloat(sprite.gridX) * spaceX + spaceX/2,
+                                  y: CGFloat(y) * spaceY - spaceY/2)
+    }
+
     func remove(centipede: Centipede) {
         if let index = centipedeModels.index(where: { $0.centipede.xPosition == centipede.xPosition && $0.centipede.yPosition == centipede.yPosition }) {
             centipedeModels.remove(at: index)
@@ -128,22 +160,14 @@ class Grid {
             // Create sprite
             let head = CentipedeSprite(imageNamed: "head")
             
-            let originalWidth = head.size.width
-            let width = spaceX
-            let scale = width / originalWidth
-            let height = head.size.height * scale
-            head.size = CGSize(width: width, height: height)
-            head.gridX = x - (i * direction)
-            head.gridY = y
+            position(head, x: x - (i * direction), y: y)
             
-            let physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(width / 2.0))
+            let physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(spaceX / 2.0))
             physicsBody.isDynamic = true
             physicsBody.categoryBitMask = PhysicsCategory.centipedePart
-            physicsBody.contactTestBitMask = PhysicsCategory.bullet & PhysicsCategory.ship
+            physicsBody.contactTestBitMask = PhysicsCategory.bullet | PhysicsCategory.ship | PhysicsCategory.mushroom
             physicsBody.collisionBitMask = PhysicsCategory.none
             head.physicsBody = physicsBody
-            
-            head.position = CGPoint(x: CGFloat(head.gridX) * spaceX + spaceX/2, y: CGFloat(y) * spaceY - spaceY/2)
 
             scene?.addChild(head)
             sprites.append(head)
@@ -174,6 +198,15 @@ class Grid {
             }
         }
 //        rebuildCentipedes()
+    }
+    
+    func centipedeBumpedIntoMushroom(_ centipedeSprite: CentipedeSprite) {
+        // todo: this and above waste time looking for the model. Why not have the sprite keep a weak pointer to its Centipede?
+        for model in centipedeModels {
+            if model.sprites.index(of: centipedeSprite) == 0 {
+                model.centipede.bumpedIntoMushroom()
+            }
+        }
     }
     
 //    var action: SKAction {

@@ -8,8 +8,6 @@
 
 import SpriteKit
 
-class CentipedeSprite: SKSpriteNode
+class CentipedeSprite: GridSprite
 {
-    var gridX: Int = 0
-    var gridY: Int = 0
 }

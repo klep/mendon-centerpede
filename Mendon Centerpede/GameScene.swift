@@ -17,6 +17,10 @@ func random(min: CGFloat, max: CGFloat) -> CGFloat {
     return random() * (max - min) + min
 }
 
+func random(min: Int, max: Int) -> Int {
+    return min + Int(arc4random_uniform(UInt32(max - min)))
+}
+
 struct PhysicsCategory {
     static let none: UInt32 = 0
     static let all: UInt32 = UInt32.max
@@ -34,6 +38,9 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         backgroundColor = SKColor.purple
+        
+        grid = Grid(width: size.width, height: size.height, scene: self)
+
         addShip()
         addRandomMushrooms()
         
@@ -54,13 +61,11 @@ class GameScene: SKScene {
 //                ])
 //        )
         
-        grid = Grid(width: size.width, height: size.height, scene: self)
-        
         run(repeatAction, withKey: "centipede-spawner")
 //        run(shootingAction, withKey: "shooting")
     }
 
-    private var spriteSize: CGSize {
+    var spriteSize: CGSize {
         let originalWidth = ship.size.width
         let width = size.width / 20.0
         let scale = width / originalWidth
@@ -68,14 +73,15 @@ class GameScene: SKScene {
         return CGSize(width: width, height: height)
     }
     
-    private let numMushrooms = 1
+    private let numMushrooms = 12
     func addRandomMushrooms() {
+        guard let grid = grid else { return }
         for _ in 0..<numMushrooms {
-            let mushroom = MushroomSprite()
-            mushroom.size = spriteSize
-            mushroom.position = CGPoint(x: size.width * 0.5, y: 20)
-
-            addChild(mushroom)
+            var added = false
+            while !added {
+                added = grid.addMushroom(x: random(min: 0, max: grid.xCount),
+                                         y: random(min: 5, max: grid.yCount))
+            }
         }
     }
     
@@ -223,6 +229,11 @@ class GameScene: SKScene {
         grid?.centipedeWasHit(centipedePart)
     }
     
+    func centipedeDidHitMushroom(centipedePart: CentipedeSprite, mushroom: MushroomSprite) {
+        print("Centipede bumped into mushroom")
+        grid?.centipedeBumpedIntoMushroom(centipedePart)
+    }
+    
     func gameOver() {
         gameIsOver = true
         self.removeAllChildren()
@@ -249,6 +260,12 @@ extension GameScene: SKPhysicsContactDelegate {
             if let centipedePart = firstBody.node as? SKSpriteNode,
                 let bullet = secondBody.node as? SKSpriteNode {
                 bulletDidHitCentipedePart(bullet: bullet, centipedePart: centipedePart)
+            }
+        } else if ((firstBody.categoryBitMask & PhysicsCategory.centipedePart != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.mushroom != 0)) {
+            if let centipedePart = firstBody.node as? CentipedeSprite,
+                let mushroom = secondBody.node as? MushroomSprite {
+                centipedeDidHitMushroom(centipedePart: centipedePart, mushroom: mushroom)
             }
         } else if ((firstBody.categoryBitMask & PhysicsCategory.mushroom != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.bullet != 0)) {

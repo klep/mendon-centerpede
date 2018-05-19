@@ -1,0 +1,15 @@
+√Wrong direction
+√speed increase
+√mushrooms initial
+√mushrooms collide with centipede
+mushrooms degrade when shot
+shot part turns into mushroom
+two parts overlap when shot (bad)
+keep spaceship on screen
+keep spaceship below fold
+tapping to shoot is weird -- add a button or make it always shoot
+centipede intersecting centipede
+win state (all parts gone)
+lose state (intersects ship)
+explosions
+sound

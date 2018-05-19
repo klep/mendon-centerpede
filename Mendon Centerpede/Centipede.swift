@@ -9,13 +9,14 @@
 import Foundation
 import CoreGraphics
 
-class Centipede: Sprite {
+class Centipede {
     let gridWidth: Int
     let gridHeight: Int
     var bodyCount: Int
     var xPosition: Int
     var yPosition: Int
     weak var grid: Grid?
+    var didBumpIntoMushroom = false
 
     init(bodyCount: Int, gridWidth: Int, gridHeight: Int, startX: Int, startY: Int, grid: Grid) {
         self.gridWidth = gridWidth
@@ -64,5 +65,11 @@ class Centipede: Sprite {
         grid.speed = grid.speed * 1.2
         
         print("A centipede of length \(originalBodyCount) was hit at index \(index) (\(x), \(y)), making the old one length \(bodyCount) and the new one \(newCentipedeBodyCount)")
+    }
+    
+    func bumpedIntoMushroom() {
+        yPosition -= 1
+        xPosition += direction
+        direction = -direction
     }
 }

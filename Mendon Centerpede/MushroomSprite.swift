@@ -8,13 +8,13 @@
 
 import SpriteKit
 
-class MushroomSprite: SKSpriteNode {
-    init() {
-        let texture = SKTexture(imageNamed: "mushroom")
-        super.init(texture: texture, color: UIColor.white, size: texture.size())
-    }
+class MushroomSprite: GridSprite {
+    var strength = 4
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func hit() {
+        strength -= 1
+        if (strength <= 0) {
+            removeFromParent()
+        }
     }
 }
