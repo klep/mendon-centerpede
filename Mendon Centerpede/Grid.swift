@@ -116,8 +116,7 @@ class Grid {
     @discardableResult
     func addMushroom(x: Int, y: Int) -> Bool
     {
-        // Check if there's already a mushroom at this position
-        if mushrooms.reduce(false, { $0 || ($1.gridX == x && $1.gridY == y) }) { return false }
+        if hasMushroom(x: x, y: y) { return false }
         
         let mushroom = MushroomSprite()
         mushroom.gridX = x
@@ -126,8 +125,7 @@ class Grid {
         // adjust the size a bit to avoid overlap
         mushroom.size = CGSize(width: mushroom.size.width, height: mushroom.size.height * 0.9)
 
-        // body is slightly wider so that collisions are detected before the turn in which they occur
-        let physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: mushroom.size.width * 2, height: mushroom.size.height * 0.5))
+        let physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: mushroom.size.width, height: mushroom.size.height))
         physicsBody.isDynamic = true
         physicsBody.categoryBitMask = PhysicsCategory.mushroom
         physicsBody.contactTestBitMask = PhysicsCategory.bullet | PhysicsCategory.centipedePart
@@ -216,6 +214,15 @@ class Grid {
         return mushrooms.reduce(false, { $0 || $1.gridX == x && $1.gridY == y })
     }
     
+    func hasCentipede(x: Int, y: Int) -> Bool {
+        // todo: should be instant
+        for model in centipedeModels {
+            if model.sprites.reduce(false, { $0 || $1.gridX == x && $1.gridY == y }) {
+                return true
+            }
+        }
+        return false
+    }
 //    var action: SKAction {
 //        return SKAction.repeatForever(SKAction.sequence([
 //            SKAction.wait(forDuration: 0.2),

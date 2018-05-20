@@ -51,7 +51,8 @@ class Centipede {
             newDirection = 1
         }
         
-        if grid!.hasMushroom(x: newX, y: newY) {
+        if grid!.hasMushroom(x: newX, y: newY) ||
+            grid!.hasCentipede(x: newX, y: newY) {
             newX = oldX
             newY = oldY - 1
             newDirection = -oldDirection
