@@ -15,5 +15,6 @@ tapping to shoot is weird -- add a button or make it always shoot
 centipede intersecting centipede
 win state (all parts gone)
 lose state (intersects ship)
+splash screen
 explosions
-sound
+maybe have kids record sounds?

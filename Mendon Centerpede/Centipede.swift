@@ -59,7 +59,9 @@ class Centipede {
         
         let newCentipedeBodyCount = originalBodyCount - bodyCount - 1
         if newCentipedeBodyCount > 0 {
-            grid.addCentipede(x: x - 1, y: y, direction: self.direction, bodyCount: originalBodyCount - bodyCount - 1)
+            grid.addCentipede(x: x - direction - direction,
+                              y: y, direction: self.direction,
+                              bodyCount: originalBodyCount - bodyCount - 1)
         }
         
         grid.speed = grid.speed * 1.1
