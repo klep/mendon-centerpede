@@ -160,7 +160,7 @@ class Grid {
         var sprites: [CentipedeSprite] = []
         for i in 0..<centipede.bodyCount {
             // Create sprite
-            let head = CentipedeSprite(imageNamed: "head")
+            let head = CentipedeSprite()
             
             position(head, x: x - (i * direction), y: y)
             
@@ -209,6 +209,11 @@ class Grid {
                 model.centipede.bumpedIntoMushroom()
             }
         }
+    }
+    
+    func hasMushroom(x: Int, y: Int) -> Bool {
+        // todo: come on. make this instant lookup
+        return mushrooms.reduce(false, { $0 || $1.gridX == x && $1.gridY == y })
     }
     
 //    var action: SKAction {

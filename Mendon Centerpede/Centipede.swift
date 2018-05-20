@@ -31,21 +31,35 @@ class Centipede {
 //    var speed = 2
     
     func takeTurn() {
-        let oldXPosition = xPosition
+        let oldX = xPosition
+        let oldY = yPosition
+        let oldDirection = direction
 
-        xPosition = oldXPosition + direction
+        var newX = oldX + direction
+        var newY = oldY
+        var newDirection = oldDirection
         
-        if xPosition >= gridWidth {
-            xPosition = gridWidth - 1
-            yPosition -= 1
-            direction = -1
+        if newX >= gridWidth {
+            newX = gridWidth - 1
+            newY = oldY - 1
+            newDirection = -1
         }
         
-        if xPosition < 0 {
-            xPosition = 0
-            yPosition -= 1
-            direction = 1
+        if newX < 0 {
+            newX = 0
+            newY = oldY - 1
+            newDirection = 1
         }
+        
+        if grid!.hasMushroom(x: newX, y: newY) {
+            newX = oldX
+            newY = oldY - 1
+            newDirection = -oldDirection
+        }
+        
+        xPosition = newX
+        yPosition = newY
+        direction = newDirection
     }
     
     func hit(at index: Int, x: Int, y: Int) {

@@ -9,15 +9,18 @@
 import SpriteKit
 
 class MushroomSprite: GridSprite {
-    var strength = 4
-
+    static let texture = SKTexture(imageNamed: "mushroom")
+    
     static let colorCycle = [UIColor.white.withAlphaComponent(0.7),
                              UIColor(red: 255/255, green: 190/255, blue: 64/255, alpha: 1),
                              UIColor(red: 227/255, green: 77/255, blue: 27/255, alpha: 1),
                              UIColor.orange]
+
+    var strength = 4
+
     init() {
-        let texture = SKTexture(imageNamed: "mushroom")
-        super.init(texture: texture, color: MushroomSprite.colorCycle[strength - 1], size: texture.size())
+        super.init(texture: MushroomSprite.texture, color: MushroomSprite.colorCycle[strength - 1],
+                   size: MushroomSprite.texture.size())
         colorBlendFactor = 1.0
     }
     

@@ -232,8 +232,8 @@ class GameScene: SKScene {
     }
     
     func centipedeDidHitMushroom(centipedePart: CentipedeSprite, mushroom: MushroomSprite) {
-        print("Centipede bumped into mushroom")
-        grid?.centipedeBumpedIntoMushroom(centipedePart)
+//        print("Centipede bumped into mushroom")
+//        grid?.centipedeBumpedIntoMushroom(centipedePart)
     }
     
     func gameOver() {
