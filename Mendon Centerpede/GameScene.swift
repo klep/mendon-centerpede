@@ -67,7 +67,7 @@ class GameScene: SKScene {
             var added = false
             while !added {
                 added = grid.addMushroom(x: random(min: 0, max: grid.xCount),
-                                         y: random(min: 5, max: grid.yCount))
+                                         y: random(min: 5, max: grid.yCount - 2))
             }
         }
     }
