@@ -12,6 +12,9 @@
 		FC74F16F2084504A00C02D4F /* CentipedeSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC74F16E2084504A00C02D4F /* CentipedeSprite.swift */; };
 		FC777D6220ABCA3C00777EB6 /* MushroomSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC777D6120ABCA3C00777EB6 /* MushroomSprite.swift */; };
 		FC777D6420B0C13100777EB6 /* GridSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC777D6320B0C13100777EB6 /* GridSprite.swift */; };
+		FCC7DA9020BEEB6200FCDE5C /* dpad.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC7DA8C20BEEB6200FCDE5C /* dpad.png */; };
+		FCC7DA9120BEEB6200FCDE5C /* Joystick.m in Sources */ = {isa = PBXBuildFile; fileRef = FCC7DA8E20BEEB6200FCDE5C /* Joystick.m */; };
+		FCC7DA9220BEEB6200FCDE5C /* joystick.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC7DA8F20BEEB6200FCDE5C /* joystick.png */; };
 		FCD5F317207DB3C700DD7972 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD5F316207DB3C700DD7972 /* AppDelegate.swift */; };
 		FCD5F31D207DB3C700DD7972 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD5F31C207DB3C700DD7972 /* GameScene.swift */; };
 		FCD5F31F207DB3C700DD7972 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD5F31E207DB3C700DD7972 /* GameViewController.swift */; };
@@ -45,6 +48,11 @@
 		FC74F16E2084504A00C02D4F /* CentipedeSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentipedeSprite.swift; sourceTree = "<group>"; };
 		FC777D6120ABCA3C00777EB6 /* MushroomSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MushroomSprite.swift; sourceTree = "<group>"; };
 		FC777D6320B0C13100777EB6 /* GridSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridSprite.swift; sourceTree = "<group>"; };
+		FCC7DA8B20BEEB6100FCDE5C /* Mendon Centerpede-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mendon Centerpede-Bridging-Header.h"; sourceTree = "<group>"; };
+		FCC7DA8C20BEEB6200FCDE5C /* dpad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dpad.png; sourceTree = "<group>"; };
+		FCC7DA8D20BEEB6200FCDE5C /* Joystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Joystick.h; sourceTree = "<group>"; };
+		FCC7DA8E20BEEB6200FCDE5C /* Joystick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Joystick.m; sourceTree = "<group>"; };
+		FCC7DA8F20BEEB6200FCDE5C /* joystick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = joystick.png; sourceTree = "<group>"; };
 		FCD5F313207DB3C700DD7972 /* Mendon Centerpede.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mendon Centerpede.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCD5F316207DB3C700DD7972 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FCD5F31C207DB3C700DD7972 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -86,9 +94,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FCC7DA8A20BEEB4D00FCDE5C /* Joystick */ = {
+			isa = PBXGroup;
+			children = (
+				FCC7DA8C20BEEB6200FCDE5C /* dpad.png */,
+				FCC7DA8D20BEEB6200FCDE5C /* Joystick.h */,
+				FCC7DA8E20BEEB6200FCDE5C /* Joystick.m */,
+				FCC7DA8F20BEEB6200FCDE5C /* joystick.png */,
+				FCC7DA8B20BEEB6100FCDE5C /* Mendon Centerpede-Bridging-Header.h */,
+			);
+			path = Joystick;
+			sourceTree = "<group>";
+		};
 		FCD5F30A207DB3C700DD7972 = {
 			isa = PBXGroup;
 			children = (
+				FCC7DA8A20BEEB4D00FCDE5C /* Joystick */,
 				FCD5F315207DB3C700DD7972 /* Mendon Centerpede */,
 				FCD5F330207DB3C900DD7972 /* Mendon CenterpedeTests */,
 				FCD5F33B207DB3C900DD7972 /* Mendon CenterpedeUITests */,
@@ -211,6 +232,7 @@
 				TargetAttributes = {
 					FCD5F312207DB3C700DD7972 = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 0930;
 					};
 					FCD5F32C207DB3C900DD7972 = {
 						CreatedOnToolsVersion = 9.3;
@@ -247,6 +269,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCC7DA9220BEEB6200FCDE5C /* joystick.png in Resources */,
+				FCC7DA9020BEEB6200FCDE5C /* dpad.png in Resources */,
 				FCD5F322207DB3C700DD7972 /* Main.storyboard in Resources */,
 				FCD5F324207DB3C900DD7972 /* Assets.xcassets in Resources */,
 				FCD5F327207DB3C900DD7972 /* LaunchScreen.storyboard in Resources */,
@@ -281,6 +305,7 @@
 				FCD5F31F207DB3C700DD7972 /* GameViewController.swift in Sources */,
 				FCD5F317207DB3C700DD7972 /* AppDelegate.swift in Sources */,
 				FC57A0762082FB17001016B7 /* Grid.swift in Sources */,
+				FCC7DA9120BEEB6200FCDE5C /* Joystick.m in Sources */,
 				FC57A0722082FADB001016B7 /* Centipede.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -454,6 +479,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3M8T4B982V;
 				INFOPLIST_FILE = "Mendon Centerpede/Info.plist";
@@ -463,6 +489,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.klep.Mendon-Centerpede";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Joystick/Mendon Centerpede-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -472,6 +500,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3M8T4B982V;
 				INFOPLIST_FILE = "Mendon Centerpede/Info.plist";
@@ -481,6 +510,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.klep.Mendon-Centerpede";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Joystick/Mendon Centerpede-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

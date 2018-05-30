@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import QuartzCore
 import GameplayKit
 
 func random() -> CGFloat {
@@ -34,6 +35,8 @@ class GameScene: SKScene {
     private let ship = SKSpriteNode(imageNamed: "ship")
     private let head = SKSpriteNode(imageNamed: "head")
     private var grid: Grid?
+    private var joystick: Joystick!
+    
     var gameIsOver = false
     
     override func didMove(to view: SKView) {
@@ -43,6 +46,7 @@ class GameScene: SKScene {
 
         addShip()
         addRandomMushrooms()
+        addJoystick()
         
         physicsWorld.contactDelegate = self
         physicsWorld.gravity = .zero
@@ -100,6 +104,15 @@ class GameScene: SKScene {
         addChild(ship)
     }
     
+    func addJoystick() {
+        let thumb = SKSpriteNode(imageNamed: "joystick")
+        let backdrop = SKSpriteNode(imageNamed: "dpad")
+        joystick = Joystick(thumb: thumb, andBackdrop: backdrop)
+        joystick.position = CGPoint(x: backdrop.size.width, y: backdrop.size.height)
+        
+        addChild(joystick)
+    }
+
     func shoot() {
         let projectile = SKSpriteNode(imageNamed: "pixel")
         projectile.position = ship.position
@@ -178,13 +191,16 @@ class GameScene: SKScene {
         run(shootAction)
     }
 
+    let velocityMultiplier:CGFloat = 7
     override func update(_ currentTime: TimeInterval) {
-        if let touch = lastTouch {
-            let adjustedTouch = CGPoint(x: touch.x, y: min(touch.y, size.height / 4.0))
-            let vector = CGVector(dx: (adjustedTouch.x - ship.position.x), dy: (adjustedTouch.y - ship.position.y))
-//            ship.physicsBody?.applyImpulse(impulseVector)
-            ship.physicsBody?.velocity = vector
-        }
+//        if let touch = lastTouch {
+//            let adjustedTouch = CGPoint(x: touch.x, y: min(touch.y, size.height / 4.0))
+//            let vector = CGVector(dx: (adjustedTouch.x - ship.position.x), dy: (adjustedTouch.y - ship.position.y))
+//            ship.physicsBody?.velocity = vector
+//        }
+        let vector = CGVector(dx: joystick.velocity.x * velocityMultiplier,
+                              dy: joystick.velocity.y * velocityMultiplier)
+        ship.physicsBody?.velocity = vector
     }
 //    override func update(currentTime: CFTimeInterval) {
 //        // Only add an impulse if there's a lastTouch stored
