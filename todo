@@ -11,10 +11,11 @@ xhave a way to cancel upcoming turn? might be why when it gets hit body parts ge
 √centipede intersecting centipede
 keep spaceship on screen
 keep spaceship below fold
-tapping to shoot is weird -- add a button or make it always shoot
+xtapping to shoot is weird -- add a button or make it always shoot
 win state (all parts gone)
 lose state (intersects ship)
 splash screen
 explosions
 maybe have kids record sounds?
-why is it killing the cpu?
+√why is it killing the cpu?
+prep pre-baked version, print out solutions, etc.

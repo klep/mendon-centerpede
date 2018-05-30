@@ -50,23 +50,6 @@ class GameScene: SKScene {
         
         physicsWorld.contactDelegate = self
         physicsWorld.gravity = .zero
-        
-        let repeatAction = SKAction.repeatForever(
-            SKAction.sequence([
-                SKAction.run(addHead),
-                SKAction.wait(forDuration: 1.0)
-                ])
-        )
-        
-//        let shootingAction = SKAction.repeatForever(
-//            SKAction.sequence([
-//                SKAction.run(shoot),
-//                SKAction.wait(forDuration: 0.2)
-//                ])
-//        )
-        
-        run(repeatAction, withKey: "centipede-spawner")
-//        run(shootingAction, withKey: "shooting")
     }
 
     var spriteSize: CGSize {
@@ -90,8 +73,8 @@ class GameScene: SKScene {
     }
     
     func addShip() {
-        ship.position = CGPoint(x: size.width * 0.5, y: 0)
         ship.size = spriteSize
+        ship.position = CGPoint(x: size.width * 0.5, y: ship.size.height * 2)
         
         let physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: spriteSize.width, height: spriteSize.height))
         physicsBody.isDynamic = true
@@ -133,43 +116,6 @@ class GameScene: SKScene {
         projectile.run(SKAction.sequence([moveAction, moveActionDone]))
     }
     
-    func addHead() {
-        
-//        // Create sprite
-//        let head = SKSpriteNode(imageNamed: "head")
-//
-//        let originalWidth = head.size.width
-//        let width = size.width / 20.0
-//        let scale = width / originalWidth
-//        let height = head.size.height * scale
-//        head.size = CGSize(width: width, height: height)
-//
-//        let physicsBody = SKPhysicsBody(circleOfRadius: width / 2.0)
-//        physicsBody.isDynamic = true
-//        physicsBody.categoryBitMask = PhysicsCategory.centipedePart
-//        physicsBody.contactTestBitMask = PhysicsCategory.bullet & PhysicsCategory.ship
-//        physicsBody.collisionBitMask = PhysicsCategory.none
-//        head.physicsBody = physicsBody
-//
-//        // Determine where to spawn the monster along the Y axis
-//        let actualY = random(min: head.size.height/2, max: size.height - head.size.height/2)
-//
-//        // Position the monster slightly off-screen along the right edge,
-//        // and along a random position along the Y axis as calculated above
-//        head.position = CGPoint(x: size.width + head.size.width/2, y: actualY)
-//
-//        // Add the monster to the scene
-//        addChild(head)
-//
-//        // Determine speed of the monster
-//        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
-//
-//        // Create the actions
-//        let actionMove = SKAction.move(to: CGPoint(x: -head.size.width/2, y: actualY), duration: TimeInterval(actualDuration))
-//        let actionMoveDone = SKAction.removeFromParent()
-//        head.run(SKAction.sequence([actionMove, actionMoveDone]))
-    }
-    
     var lastTouch: CGPoint? = nil
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -191,48 +137,27 @@ class GameScene: SKScene {
         run(shootAction)
     }
 
+    let shipMovementRows:CGFloat = 5
     let velocityMultiplier:CGFloat = 7
     override func update(_ currentTime: TimeInterval) {
-//        if let touch = lastTouch {
-//            let adjustedTouch = CGPoint(x: touch.x, y: min(touch.y, size.height / 4.0))
-//            let vector = CGVector(dx: (adjustedTouch.x - ship.position.x), dy: (adjustedTouch.y - ship.position.y))
-//            ship.physicsBody?.velocity = vector
-//        }
-        let vector = CGVector(dx: joystick.velocity.x * velocityMultiplier,
+        var vector = CGVector(dx: joystick.velocity.x * velocityMultiplier,
                               dy: joystick.velocity.y * velocityMultiplier)
+        
+        if ship.position.y < ship.size.height && vector.dy < 0 {
+            vector.dy = 0
+        }
+        if ship.position.x < ship.size.width && vector.dx < 0 {
+            vector.dx = 0
+        }
+        if ship.position.x + ship.size.width > self.size.width && vector.dx > 0 {
+            vector.dx = 0
+        }
+        if ship.position.y > ship.size.height * shipMovementRows && vector.dy > 0 {
+            vector.dy = 0
+        }
+        
         ship.physicsBody?.velocity = vector
     }
-//    override func update(currentTime: CFTimeInterval) {
-//        // Only add an impulse if there's a lastTouch stored
-//        if let touch = lastTouch {
-//            let impulseVector = CGVector(touch.x - myShip.position.x, 0)
-//            // If myShip starts moving too fast or too slow, you can multiply impulseVector by a constant or clamp its range
-//            myShip.physicsBody.applyImpluse(impulseVector)
-//        }
-//    }
-    /*
-    let velocity: Float = 1000.0
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
-        
-        let location = touch.location(in: self)
-        // todo: limit max y
-        
-        // cancel any existing moves
-        removeAction(forKey: "moving")
-        
-        // move the ship towards this location
-        let distanceX = abs(location.x - ship.position.x)
-        let distanceY = abs(location.y - ship.position.y)
-        let mostPointsToMove = max(distanceX, distanceY)
-        let duration = Float(mostPointsToMove) / velocity
-        let moveAction = SKAction.move(to: location, duration: Double(duration))
-        ship.run(moveAction, withKey: "moving")
-    }
-    */
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//    }
     
     func bulletDidHitMushroom(bullet: SKSpriteNode, mushroom: MushroomSprite) {
         print("Hit mushroom")
@@ -247,16 +172,9 @@ class GameScene: SKScene {
         grid?.centipedeWasHit(centipedePart)
     }
     
-    func centipedeDidHitMushroom(centipedePart: CentipedeSprite, mushroom: MushroomSprite) {
-//        print("Centipede bumped into mushroom")
-//        grid?.centipedeBumpedIntoMushroom(centipedePart)
-    }
-    
     func gameOver() {
         gameIsOver = true
         self.removeAllChildren()
-        self.removeAction(forKey: "centipede-spawner")
-        self.removeAction(forKey: "shooting")
     }
 }
 
@@ -278,12 +196,6 @@ extension GameScene: SKPhysicsContactDelegate {
             if let centipedePart = firstBody.node as? SKSpriteNode,
                 let bullet = secondBody.node as? SKSpriteNode {
                 bulletDidHitCentipedePart(bullet: bullet, centipedePart: centipedePart)
-            }
-        } else if ((firstBody.categoryBitMask & PhysicsCategory.centipedePart != 0) &&
-            (secondBody.categoryBitMask & PhysicsCategory.mushroom != 0)) {
-            if let centipedePart = firstBody.node as? CentipedeSprite,
-                let mushroom = secondBody.node as? MushroomSprite {
-                centipedeDidHitMushroom(centipedePart: centipedePart, mushroom: mushroom)
             }
         } else if ((firstBody.categoryBitMask & PhysicsCategory.mushroom != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.bullet != 0)) {
