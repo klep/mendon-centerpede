@@ -158,19 +158,20 @@ class Grid {
         var sprites: [CentipedeSprite] = []
         for i in 0..<centipede.bodyCount {
             // Create sprite
-            let head = CentipedeSprite()
+            let segment = CentipedeSprite()
+            segment.isHead = (i == 0)
             
-            position(head, x: x - (i * direction), y: y)
+            position(segment, x: x - (i * direction), y: y)
             
             let physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(spaceX / 2.0))
             physicsBody.isDynamic = true
             physicsBody.categoryBitMask = PhysicsCategory.centipedePart
             physicsBody.contactTestBitMask = PhysicsCategory.bullet | PhysicsCategory.ship | PhysicsCategory.mushroom
             physicsBody.collisionBitMask = PhysicsCategory.none
-            head.physicsBody = physicsBody
+            segment.physicsBody = physicsBody
 
-            scene?.addChild(head)
-            sprites.append(head)
+            scene?.addChild(segment)
+            sprites.append(segment)
         }
         
         return sprites
