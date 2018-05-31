@@ -22,6 +22,10 @@ func random(min: Int, max: Int) -> Int {
     return min + Int(arc4random_uniform(UInt32(max - min)))
 }
 
+func random<T>(_ items:[T]) -> T {
+    return items[random(min: 0, max: items.count - 1)]
+}
+
 struct PhysicsCategory {
     static let none: UInt32 = 0
     static let all: UInt32 = UInt32.max

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FC56B9EC20C07A3100BF5AC0 /* FinalCentipede.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC56B9EB20C07A3100BF5AC0 /* FinalCentipede.swift */; };
 		FC57A0722082FADB001016B7 /* Centipede.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC57A0712082FADB001016B7 /* Centipede.swift */; };
 		FC57A0762082FB17001016B7 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC57A0752082FB17001016B7 /* Grid.swift */; };
 		FC74F16F2084504A00C02D4F /* CentipedeSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC74F16E2084504A00C02D4F /* CentipedeSprite.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FC56B9EB20C07A3100BF5AC0 /* FinalCentipede.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinalCentipede.swift; sourceTree = "<group>"; };
 		FC57A0712082FADB001016B7 /* Centipede.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Centipede.swift; sourceTree = "<group>"; };
 		FC57A0752082FB17001016B7 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		FC74F16E2084504A00C02D4F /* CentipedeSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentipedeSprite.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				FCD5F31E207DB3C700DD7972 /* GameViewController.swift */,
 				FCD5F328207DB3C900DD7972 /* Info.plist */,
 				FC57A0712082FADB001016B7 /* Centipede.swift */,
+				FC56B9EB20C07A3100BF5AC0 /* FinalCentipede.swift */,
 				FC57A0752082FB17001016B7 /* Grid.swift */,
 				FC74F16E2084504A00C02D4F /* CentipedeSprite.swift */,
 				FC777D6120ABCA3C00777EB6 /* MushroomSprite.swift */,
@@ -310,6 +313,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC56B9EC20C07A3100BF5AC0 /* FinalCentipede.swift in Sources */,
 				FC777D6420B0C13100777EB6 /* GridSprite.swift in Sources */,
 				FC777D6220ABCA3C00777EB6 /* MushroomSprite.swift in Sources */,
 				FC74F16F2084504A00C02D4F /* CentipedeSprite.swift in Sources */,

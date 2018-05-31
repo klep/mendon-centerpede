@@ -80,14 +80,14 @@ class Grid {
 
                         let x = CGFloat(centipedeModel.centipede.xPosition) * strongSelf.spaceX + strongSelf.spaceX/2
                         let y = CGFloat(centipedeModel.centipede.yPosition) * strongSelf.spaceY - strongSelf.spaceY/2
-//                        print("Moving head to \(x), \(y)")
                         sprite.run(SKAction.move(to: CGPoint(x: x, y: y), duration: 1/strongSelf.speed))
                         sprite.gridX = centipedeModel.centipede.xPosition
                         sprite.gridY = centipedeModel.centipede.yPosition
+                        sprite.color = centipedeModel.centipede.color
                     } else {
                         let currentX = sprite.gridX
                         let currentY = sprite.gridY
-//                        print("Moving body part to \(lastX), \(lastY)")
+                        sprite.color = centipedeModel.centipede.color
                         let x = CGFloat(lastX) * strongSelf.spaceX + strongSelf.spaceX/2
                         let y = CGFloat(lastY) * strongSelf.spaceY - strongSelf.spaceY/2
                         sprite.run(SKAction.move(to: CGPoint(x: x, y: y), duration: 1/strongSelf.speed))
