@@ -46,13 +46,9 @@ class Centipede {
         let oldY = yPosition
         let oldDirection = direction
 
-        var newX = oldX + direction
-        var newY = oldY
-        var newDirection = oldDirection
-        
-        xPosition = newX
-        yPosition = newY
-        direction = newDirection
+        xPosition = oldX + direction
+        yPosition = oldY
+        direction = oldDirection
     }
     
     func hit(at index: Int, x: Int, y: Int) {
