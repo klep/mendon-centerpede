@@ -10,7 +10,7 @@ import Foundation
 import CoreGraphics
 
 class Centipede {
-    // Properties
+    // Properties:
 
     // Grid Position
     var xPosition: Int
@@ -30,16 +30,8 @@ class Centipede {
     var bodyCount: Int
 
     weak var grid: Grid?
-
-    init(bodyCount: Int, gridWidth: Int, gridHeight: Int, startX: Int, startY: Int, grid: Grid) {
-        self.gridWidth = gridWidth
-        self.gridHeight = gridHeight
-        self.bodyCount = bodyCount
-        self.xPosition = startX
-        self.yPosition = startY
-        self.grid = grid
-        self.color = .black
-    }
+    
+    // Methods:
     
     func takeTurn() {
         let oldX = xPosition
@@ -55,7 +47,15 @@ class Centipede {
         // TODO
     }
     
-    func bumpedIntoMushroom() {
-        // TODO
+    
+    
+    init(bodyCount: Int, gridWidth: Int, gridHeight: Int, startX: Int, startY: Int, grid: Grid) {
+        self.gridWidth = gridWidth
+        self.gridHeight = gridHeight
+        self.bodyCount = bodyCount
+        self.xPosition = startX
+        self.yPosition = startY
+        self.grid = grid
+        self.color = .black
     }
 }

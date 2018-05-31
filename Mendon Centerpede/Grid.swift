@@ -201,15 +201,6 @@ class Grid {
 //        rebuildCentipedes()
     }
     
-    func centipedeBumpedIntoMushroom(_ centipedeSprite: CentipedeSprite) {
-        // todo: this and above waste time looking for the model. Why not have the sprite keep a weak pointer to its Centipede?
-        for model in centipedeModels {
-            if model.sprites.index(of: centipedeSprite) == 0 {
-                model.centipede.bumpedIntoMushroom()
-            }
-        }
-    }
-    
     func hasMushroom(x: Int, y: Int) -> Bool {
         // todo: come on. make this instant lookup
         return mushrooms.reduce(false, { $0 || $1.gridX == x && $1.gridY == y })

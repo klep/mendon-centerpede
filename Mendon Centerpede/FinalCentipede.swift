@@ -15,32 +15,28 @@ class FinalCentipede: Centipede {
         let oldY = yPosition
         let oldDirection = direction
 
-        var newX = oldX + direction
-        var newY = oldY
-        var newDirection = oldDirection
+        xPosition = oldX + direction
+        yPosition = oldY
+        direction = oldDirection
         
-        if newX >= gridWidth {
-            newX = gridWidth - 1
-            newY = oldY - 1
-            newDirection = -1
+        if xPosition >= gridWidth {
+            xPosition = gridWidth - 1
+            yPosition = oldY - 1
+            direction = -1
         }
         
-        if newX < 0 {
-            newX = 0
-            newY = oldY - 1
-            newDirection = 1
+        if xPosition < 0 {
+            xPosition = 0
+            yPosition = oldY - 1
+            direction = 1
         }
         
-        if grid!.hasMushroom(x: newX, y: newY) ||
-            grid!.hasCentipede(x: newX, y: newY) {
-            newX = oldX
-            newY = oldY - 1
-            newDirection = -oldDirection
+        if grid!.hasMushroom(x: xPosition, y: yPosition) ||
+            grid!.hasCentipede(x: xPosition, y: yPosition) {
+            xPosition = oldX
+            yPosition = oldY - 1
+            direction = -oldDirection
         }
-        
-        xPosition = newX
-        yPosition = newY
-        direction = newDirection
     }
     
     override func hit(at index: Int, x: Int, y: Int) {
@@ -63,13 +59,5 @@ class FinalCentipede: Centipede {
         grid.addMushroom(x: x, y: y)
         
         print("A centipede of length \(originalBodyCount) was hit at index \(index) (\(x), \(y)), making the old one length \(bodyCount) and the new one \(newCentipedeBodyCount)")
-    }
-    
-    override func bumpedIntoMushroom() {
-        yPosition -= 1
-        xPosition += direction
-        direction = -direction
-        
-        // todo: could verify that direction doesn't send it off the grid here, but might be too complex for kids
     }
 }
